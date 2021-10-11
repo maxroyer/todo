@@ -84,12 +84,12 @@ void removeItem(todo_t& todoArr)
 
 void printList(const todo_t todoArr)
 {
-    std::cout << "\n**********" << "\nTo-Do:\n-------\n";
+    std::cout << "\n***************" << "\nTo-Do:\n-------\n";
     for (auto i : todoArr)
     {
         if (i != "") std::cout << "- " << i << '\n';
     }
-    std::cout << "**********" << "\n\n";
+    std::cout << "***************\n***************\n\n";
 }
 
 void printListNumbered(const todo_t todoArr)
