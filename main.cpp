@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <climits>
+
 
 
 bool g_running;
@@ -77,7 +77,7 @@ void removeItem(todo_t& todoArr)
     std::cin.clear();
     std::cin.ignore(128, '\n');
 
-    if (num > 0 && num <= todoArr.size()) todoArr[num-1] = "0";
+    if (num > 0 && num <= todoArr.size()) todoArr[num-1] = "";
 }
 
 void printList(const todo_t todoArr)
@@ -85,7 +85,7 @@ void printList(const todo_t todoArr)
     std::cout << "\n**********" << "\nTo-Do:\n-------\n";
     for (auto i : todoArr)
     {
-        if (i != "" && i != "0") std::cout << "- " << i << '\n';
+        if (i != "") std::cout << "- " << i << '\n';
     }
     std::cout << "**********" << "\n\n";
 }
@@ -95,7 +95,7 @@ void printListNumbered(const todo_t todoArr)
     std::cout << "\n**********\n";
     for (int i{0}; i < todoArr.size(); ++i)
     {
-        if (todoArr[i] != "0" && todoArr[i] != "") std::cout << '[' << i + 1 << "] " << todoArr[i] << '\n';
+        if (todoArr[i] != "") std::cout << '[' << i + 1 << "] " << todoArr[i] << '\n';
     }
     std::cout << "**********\n";
 }
@@ -105,7 +105,7 @@ void saveFileAndExit (std::string file, todo_t todoArr)
     std::ofstream outf{file, std::ios::trunc};
     for (std::string item : todoArr)
     {
-        if (item != "" && item != "0") outf << item << '\n';
+        if (item != "") outf << item << '\n';
     }
     g_running = false;
 }
