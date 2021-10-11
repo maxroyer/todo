@@ -170,10 +170,5 @@ int main ()
         query(dataFile, list);
     }
     
-    // for (auto i : list)
-    // {
-    //     std::cout << i << '\n';
-    // }
-
     return 0;
 }
