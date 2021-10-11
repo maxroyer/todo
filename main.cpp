@@ -109,7 +109,7 @@ void createFile (std::string file)
     }
 }
 
-void query(TodoList list)
+void query(TodoList& list)
 {
     std::cout << "Command: (Add/Remove/View/Exit) ";
     std::string command{};
