@@ -62,10 +62,12 @@ void addToArr (todo_t& todoArr)
     std::string newItem{};
     std::getline(std::cin, newItem);
 
-    int listlength {static_cast<int>(todoArr.size())};
-    todoArr.resize(listlength+1);
-    todoArr[listlength] = todoArr[listlength-1];
-    todoArr[listlength-1] = newItem;
+    todoArr.push_back(newItem);
+
+    // int listlength {static_cast<int>(todoArr.size())};
+    // todoArr.resize(listlength+1);
+    // todoArr[listlength] = todoArr[listlength-1];
+    // todoArr[listlength-1] = newItem;
 }
 
 void removeItem(todo_t& todoArr)
@@ -100,7 +102,7 @@ void printListNumbered(const todo_t todoArr)
     std::cout << "**********\n";
 }
 
-void saveFileAndExit (std::string file, todo_t todoArr)
+void saveFileAndExit (std::string file, const todo_t todoArr)
 {
     std::ofstream outf{file, std::ios::trunc};
     for (std::string item : todoArr)
