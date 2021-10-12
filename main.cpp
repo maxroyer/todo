@@ -3,19 +3,23 @@
 #include <string>
 #include <vector>
 
-
 bool g_running;
-using todo_t = std::vector<std::string>;
 
 class TodoList
 {
     std::vector<std::string> todoArr{};
-    std::string filePath{};
+    std::string filePath;
 
 public:
+    TodoList(std::string file) : filePath{file}
+    {
+        fileToArr();
+    }
+
     void setFile(std::string file)
     {
         filePath = file;
+        fileToArr();
     }
 
     void fileToArr()
@@ -44,20 +48,22 @@ public:
 
     void print()
     {
-        std::cout << "\n***************" << "\nTo-Do:\n-------\n";
+        std::cout << "\n***************\n***************\n\nTo-Do:\n-------\n";
         for (auto i : todoArr)
         {
             if (i != "") std::cout << "- " << i << '\n';
         }
-        std::cout << "***************\n***************\n\n";
+        std::cout << "\n***************\n***************\n\n";
     }
 
     void printNumbered()
     {
+        int printedNum {1};
+
         std::cout << "\n**********\n";
         for (int i{0}; i < todoArr.size(); ++i)
         {
-            if (todoArr[i] != "") std::cout << '[' << i + 1 << "] " << todoArr[i] << '\n';
+            if (todoArr[i] != "") std::cout << '[' << printedNum++ << "] " << todoArr[i] << '\n';
         }
         std::cout << "**********\n";
     }
@@ -162,9 +168,7 @@ int main ()
     std::string dataFile{"todo.dat"};
     g_running = true;
     createFile(dataFile);
-    TodoList todo{};
-    todo.setFile(dataFile);
-    todo.fileToArr();
+    TodoList todo{dataFile};
 
     while (g_running)
     {
