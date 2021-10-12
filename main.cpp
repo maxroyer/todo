@@ -71,7 +71,7 @@ void query(TodoList& list)
 
 int main ()
 {
-    std::string dataFile{"todo.dat"};
+    std::string dataFile{"./lists/todo.dat"};
     g_running = true;
     createFile(dataFile);
     TodoList todo{dataFile};
