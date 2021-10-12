@@ -54,10 +54,12 @@ public:
 
     void printNumbered()
     {
+        int printedNum {1};
+
         std::cout << "\n**********\n";
         for (int i{0}; i < todoArr.size(); ++i)
         {
-            if (todoArr[i] != "") std::cout << '[' << i + 1 << "] " << todoArr[i] << '\n';
+            if (todoArr[i] != "") std::cout << '[' << printedNum++ << "] " << todoArr[i] << '\n';
         }
         std::cout << "**********\n";
     }
