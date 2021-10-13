@@ -5,9 +5,10 @@ class TodoList
 {
     std::vector<std::string> todoArr{};
     std::string filePath;
+    std::string name;
 
 public:
-    TodoList(std::string file);
+    TodoList(std::string file, std::string title);
 
     void setFile(std::string file);
     void fileToArr();

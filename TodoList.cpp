@@ -4,8 +4,9 @@
 #include <vector>
 #include "TodoList.h"
 
-TodoList::TodoList(std::string file)
+TodoList::TodoList(std::string file, std::string title)
 {
+    name = title;
     setFile(file);
     fileToArr();
 }
