@@ -12,8 +12,9 @@ public:
 
     void setFile(std::string file);
     void fileToArr();
+    void purgeArr();
     void print() const;
-    void printNumbered() const;
+    void printNumbered();
     void add();
     void removeItem();
     void saveToFile();

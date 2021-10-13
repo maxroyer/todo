@@ -39,6 +39,18 @@ public:
         }  
     }
 
+    void purgeArr()
+    {
+        for (int i{0}; i < m_fileArr.size(); ++i)
+        {
+            if (m_fileArr[i] == "")
+            {
+                m_fileArr.erase(m_fileArr.begin() + i);
+                m_titleArr.erase(m_titleArr.begin() + i);
+            }
+        }
+    }
+
     void newList()
     {
         std::cout << "New List Name: ";
@@ -58,7 +70,7 @@ public:
 
         while(true)
         {
-            std::cout << "Select a list: ";
+            std::cout << "Select a list to delete: ";
             std::cin >> num;
             if (std::cin.fail())
             {
@@ -75,8 +87,11 @@ public:
         }
 
         int remove{num-1};
+        std::filesystem::remove(m_fileArr[remove]);
         m_fileArr[remove] = "";
         m_titleArr[remove] = "";
+        purgeArr();
+        selectList();
 
     }
     
@@ -106,7 +121,7 @@ public:
 
         while(num < 1 || num > m_titleArr.size())
         {
-            std::cout << "Select a list: ";
+            std::cout << "Select a list to open: ";
             std::cin >> num;
             std::cin.clear();
             std::cin.ignore(128, '\n');
@@ -137,7 +152,7 @@ void createFile (std::string file)
 
 void query(TodoList& list, ListManager& lm)
 {
-    std::cout << "Command(a/r/v/n/s/q): ";
+    std::cout << "Command(a/r/v/n/s/d/q): ";
     std::string command{};
     std::getline(std::cin, command);
     
@@ -176,6 +191,10 @@ void query(TodoList& list, ListManager& lm)
         {
             lm.selectList();
             //break;
+        }
+        else if (command == "D" || command == "d")
+        {
+            lm.removeList();
         }
         else
         {

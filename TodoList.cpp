@@ -10,6 +10,7 @@ TodoList::TodoList(std::string file, std::string title)
     name = title;
     setFile(file);
     fileToArr();
+    purgeArr();
 }
 
 void TodoList::setFile(std::string file)
@@ -42,6 +43,17 @@ void TodoList::fileToArr()
     }
 }
 
+void TodoList::purgeArr()
+{
+    for(int i{0}; i < todoArr.size(); ++i)
+    {
+        if (todoArr[i] == "")
+        {
+            todoArr.erase(todoArr.begin() + i);
+        }
+    }
+}
+
 void TodoList::print() const
 {
     std::cout << "\n***************\n***************\n\nTo-Do: "<< name << "\n-------\n";
@@ -52,14 +64,13 @@ void TodoList::print() const
     std::cout << "\n***************\n***************\n\n";
 }
 
-void TodoList::printNumbered() const
+void TodoList::printNumbered() 
 {
-    int printedNum {1};
-
+    purgeArr();
     std::cout << "\n**********\n";
     for (int i{0}; i < todoArr.size(); ++i)
     {
-        if (todoArr[i] != "") std::cout << '[' << printedNum++ << "] " << todoArr[i] << '\n';
+        std::cout << '[' << i+1 << "] " << todoArr[i] << '\n';
     }
     std::cout << "**********\n";
 }
@@ -70,7 +81,6 @@ void TodoList::add()
     std::string newItem{};
     std::getline(std::cin >> std::ws, newItem);
     std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     todoArr.push_back(newItem);
 }
@@ -91,15 +101,23 @@ void TodoList::removeItem()
             std::cout << "Item not found\n";
             continue;
         }
-
+        std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         
-        if (num < 1 || num >= todoArr.size()) continue;
-        else break;
+        if (num < 1 || num > todoArr.size())
+        {
+            std::cout << "Item not found.\n";
+            continue;
+        }
+        else 
+        {
+            break;
+        }
 
     }
 
     todoArr[num-1] = "";
+    purgeArr();
 }   
 
 void TodoList::saveToFile()
