@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <limits>
 #include "TodoList.h"
 
 bool g_running;
@@ -55,12 +56,22 @@ public:
         printNumbered();
         int num {0};
 
-        while(num < 1 || num > m_titleArr.size())
+        while(true)
         {
             std::cout << "Select a list: ";
             std::cin >> num;
+            if (std::cin.fail())
+            {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Item not found\n";
+                continue;
+            }
             std::cin.clear();
-            std::cin.ignore(128, '\n');
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        
+            if (num < 1 || num >= m_titleArr.size()) continue;
+            else break;
         }
 
         int remove{num-1};
@@ -129,47 +140,49 @@ void query(TodoList& list, ListManager& lm)
     std::cout << "Command(a/r/v/n/s/q): ";
     std::string command{};
     std::getline(std::cin, command);
+    
 
     while (true)
     {
         if (command == "Add" || command == "add" || command == "A" || command == "a")
         {
             list.add();
-            break;
+            //break;
         }
         else if (command == "View" || command == "view" || command == "V" || command == "v")
         {
             list.print();
-            break;
+            //break;
         }
         else if (command == "quit" || command == "Quit" || command == "Q" || command == "q")
         {
             list.saveToFile();
             std::cout << "Exiting\n";
             g_running = false;
-            break;
+            //break;
         }
         else if (command == "Remove" || command == "remove" || command == "R" || command == "r")
         {
             list.printNumbered();
             list.removeItem();
-            break;
+            //break;
         }
         else if (command == "N" || command == "n")
         {
             lm.newList();
-            break;
+            //break;
         }
         else if (command == "S" || command == "s")
         {
             lm.selectList();
-            break;
+            //break;
         }
         else
         {
             std::cerr << "Command not recognized!\n";
-            break;
+            //break;
         }
+        break;
     }
 }
 

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <limits>
 #include "TodoList.h"
 
 TodoList::TodoList(std::string file, std::string title)
@@ -67,21 +68,38 @@ void TodoList::add()
 {
     std::cout << "Add to list: ";
     std::string newItem{};
-    std::getline(std::cin, newItem);
+    std::getline(std::cin >> std::ws, newItem);
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     todoArr.push_back(newItem);
 }
 
 void TodoList::removeItem()
 {
-    std::cout << "Select number to remove: ";
-
     int num {};
-    std::cin >> num;
-    std::cin.clear();
-    std::cin.ignore(128, '\n');
 
-    if (num > 0 && num <= todoArr.size()) todoArr[num-1] = "";
+    while(true)
+    {
+        std::cout << "Select number to remove: ";
+        std::cin >> num;
+
+        if (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Item not found\n";
+            continue;
+        }
+
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        
+        if (num < 1 || num >= todoArr.size()) continue;
+        else break;
+
+    }
+
+    todoArr[num-1] = "";
 }   
 
 void TodoList::saveToFile()
