@@ -17,6 +17,7 @@ public:
     void add();
     void removeItem();
     void saveToFile();
+    friend class ListManager;
 
 };
 
