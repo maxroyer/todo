@@ -43,7 +43,7 @@ void TodoList::fileToArr()
 
 void TodoList::print() const
 {
-    std::cout << "\n***************\n***************\n\nTo-Do:\n-------\n";
+    std::cout << "\n***************\n***************\n\nTo-Do: "<< name << "\n-------\n";
     for (auto i : todoArr)
     {
         if (i != "") std::cout << "- " << i << '\n';

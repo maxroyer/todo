@@ -9,7 +9,7 @@ bool g_running;
 
 class ListManager
 {
-    TodoList m_activeList; //{"./lists/todo.dat", "todo"};
+    TodoList m_activeList;
     std::string m_dir;
     std::vector<std::string> m_fileArr;
     std::vector<std::string> m_titleArr;
@@ -35,9 +35,59 @@ public:
                 m_activeIndex = i;
                 break;
             } 
+        }  
+    }
+
+    void commandLoop()
+    {
+        ;
+    }
+
+    void newList()
+    {
+        std::cout << "New List Name: ";
+        std::string title;
+        std::cin >> title;
+        std::string path {m_dir + '/' + title + ".dat"};
+
+        m_fileArr.push_back(path);
+        m_titleArr.push_back(title);
+        setActiveList(m_fileArr.size() - 1);
+    }
+    
+    void setActiveList (int index)
+    {
+        m_activeList.saveToFile();
+        m_activeIndex = index;
+        m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
+    }
+
+    void printNumbered()
+    {
+        std::cout << "\n**********\n";
+        for (int i{0}; i < m_titleArr.size(); ++i)
+        {
+            std::cout << '[' << i + 1 << ']' << ' ' << m_titleArr[i] << '\n';
+        }
+        std::cout << "**********\n\n";
+
+    }
+
+    void selectList()
+    {
+        printNumbered();
+        int num {0};
+
+        while(num < 1 || num > m_titleArr.size())
+        {
+            std::cout << "Select a list: ";
+            std::cin >> num;
+            std::cin.clear();
+            std::cin.ignore(128, '\n');
         }
 
-        
+        setActiveList(num - 1);
+        m_activeList.print();
     }
 
     TodoList& getActiveList() {return m_activeList;}
@@ -54,49 +104,52 @@ void createFile (std::string file)
     }
     else
     {
-        std::cout << "File already exists \n";
+        //std::cout << "File already exists \n";
+        ;
     }
 }
 
-void query(TodoList& list)
+void query(TodoList& list, ListManager& lm)
 {
-    std::cout << "Command: (Add/Remove/View/Exit) ";
+    std::cout << "Command(a/r/v/n/s/q): ";
     std::string command{};
     std::getline(std::cin, command);
 
     while (true)
     {
-        if (command == "Add" || command == "add")
+        if (command == "Add" || command == "add" || command == "A" || command == "a")
         {
             list.add();
             break;
         }
-        else if (command == "View" || command == "view")
+        else if (command == "View" || command == "view" || command == "V" || command == "v")
         {
             list.print();
             break;
         }
-        else if (command == "quit" || command == "Quit" || command == "Exit" || command == "exit")
+        else if (command == "quit" || command == "Quit" || command == "Q" || command == "q")
         {
             list.saveToFile();
             std::cout << "Exiting\n";
             g_running = false;
             break;
         }
-        else if (command == "Remove" || command == "remove")
+        else if (command == "Remove" || command == "remove" || command == "R" || command == "r")
         {
             list.printNumbered();
             list.removeItem();
             break;
         }
-        /*else if (command == "db")
+        else if (command == "N" || command == "n")
         {
-            for (auto i : listtodoArr)
-            {
-                std::cout << "'" << i << "'" << '\n';
-            }
+            lm.newList();
             break;
-        }*/
+        }
+        else if (command == "S" || command == "s")
+        {
+            lm.selectList();
+            break;
+        }
         else
         {
             std::cerr << "Command not recognized!\n";
@@ -112,10 +165,11 @@ int main ()
     g_running = true;
     createFile(dataFile);
     ListManager lm{"./lists", dataFile, "todo"};
+    lm.selectList();
 
     while (g_running)
     {
-        query(lm.getActiveList());
+        query(lm.getActiveList(), lm);
     }
     
     return 0;
