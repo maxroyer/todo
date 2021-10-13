@@ -38,11 +38,6 @@ public:
         }  
     }
 
-    void commandLoop()
-    {
-        ;
-    }
-
     void newList()
     {
         std::cout << "New List Name: ";
@@ -54,6 +49,25 @@ public:
         m_titleArr.push_back(title);
         setActiveList(m_fileArr.size() - 1);
     }
+
+    void removeList()
+    {
+        printNumbered();
+        int num {0};
+
+        while(num < 1 || num > m_titleArr.size())
+        {
+            std::cout << "Select a list: ";
+            std::cin >> num;
+            std::cin.clear();
+            std::cin.ignore(128, '\n');
+        }
+
+        int remove{num-1};
+        m_fileArr[remove] = "";
+        m_titleArr[remove] = "";
+
+    }
     
     void setActiveList (int index)
     {
@@ -64,10 +78,11 @@ public:
 
     void printNumbered()
     {
+        int printedNum {1};
         std::cout << "\n**********\n";
         for (int i{0}; i < m_titleArr.size(); ++i)
         {
-            std::cout << '[' << i + 1 << ']' << ' ' << m_titleArr[i] << '\n';
+            if (m_titleArr[i] != "") std::cout << '[' << printedNum++ << ']' << ' ' << m_titleArr[i] << '\n';
         }
         std::cout << "**********\n\n";
 
