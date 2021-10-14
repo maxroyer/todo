@@ -15,6 +15,26 @@ class ListManager
     std::vector<std::string> m_fileArr;
     std::vector<std::string> m_titleArr;
     int m_activeIndex;
+
+    void setActiveList (int index, bool deleteMode = false)
+    {
+        if (!deleteMode) m_activeList.saveToFile();
+        m_activeIndex = index;
+        m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
+    }
+
+    void purgeArr()
+    {
+        for (int i{0}; i < m_fileArr.size(); ++i)
+        {
+            if (m_fileArr[i] == "")
+            {
+                m_fileArr.erase(m_fileArr.begin() + i);
+                m_titleArr.erase(m_titleArr.begin() + i);
+            }
+        }
+    }
+
 public:
     ListManager(std::string dir, std::string file, std::string title) : m_dir{dir}, m_activeList{file, title}
     {
@@ -39,17 +59,7 @@ public:
         }  
     }
 
-    void purgeArr()
-    {
-        for (int i{0}; i < m_fileArr.size(); ++i)
-        {
-            if (m_fileArr[i] == "")
-            {
-                m_fileArr.erase(m_fileArr.begin() + i);
-                m_titleArr.erase(m_titleArr.begin() + i);
-            }
-        }
-    }
+    
 
     void newList()
     {
@@ -82,25 +92,27 @@ public:
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         
-            if (num < 1 || num >= m_titleArr.size()) continue;
+            if (num < 1 || num > m_titleArr.size())
+            {
+                std::cout << "Out of Range\n";
+                continue;
+            }
             else break;
         }
 
         int remove{num-1};
+        std::ifstream inf{m_fileArr[remove]};
+        inf.close();
         std::filesystem::remove(m_fileArr[remove]);
         m_fileArr[remove] = "";
         m_titleArr[remove] = "";
         purgeArr();
-        selectList();
+        if (remove == m_activeIndex) selectList(true);
+        else selectList();
 
     }
     
-    void setActiveList (int index)
-    {
-        m_activeList.saveToFile();
-        m_activeIndex = index;
-        m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
-    }
+    
 
     void printNumbered()
     {
@@ -114,7 +126,7 @@ public:
 
     }
 
-    void selectList()
+    void selectList(bool deleteMode = false)
     {
         printNumbered();
         int num {0};
@@ -127,8 +139,16 @@ public:
             std::cin.ignore(128, '\n');
         }
 
-        setActiveList(num - 1);
-        m_activeList.print();
+        if (deleteMode)
+        {
+            setActiveList(num - 1, deleteMode);
+            m_activeList.print(); 
+        }
+        else
+        {
+            setActiveList(num - 1);
+            m_activeList.print();
+        }
     }
 
     TodoList& getActiveList() {return m_activeList;}
