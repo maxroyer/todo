@@ -7,34 +7,19 @@
 #include "ListManager.h"
 #include "TodoList.h"
 
-ListManager::ListManager (std::string dir, std::string file, std::string title): m_dir{dir}, m_activeList{file, title}
+
+ListManager::ListManager (std::string dir, std::vector<std::string> fileArr, std::vector<std::string> titleArr, int selectedIndex): m_dir {dir}, m_fileArr {fileArr}, m_titleArr {titleArr}, m_activeList {fileArr[selectedIndex], titleArr[selectedIndex]}
 {
-    for (const auto& entry : std::filesystem::directory_iterator(dir))
-        {
-            std::string file{entry.path()};
-            std::string title{file.substr(8, file.length())};
-            title.erase(title.end()-4, title.end());
-
-            m_fileArr.push_back(file);
-            m_titleArr.push_back(title);
-        }
-
-        m_activeIndex = 0;
-        for (int i{0}; i < m_fileArr.size(); ++i)
-        {
-            if (m_fileArr[i].find("todo.dat") != std::string::npos)
-            {
-                m_activeIndex = i;
-                break;
-            } 
-        }
+    purgeArr();
+    m_activeList.print();
 }
 
 void ListManager::newList()
 {
+    m_dir = "./lists";
     std::cout << "New List Name: ";
     std::string title;
-    std::cin >> title;
+    std::getline(std::cin >> std::ws, title);
     std::string path {m_dir + '/' + title + ".dat"};
 
     m_fileArr.push_back(path);
@@ -59,7 +44,7 @@ void ListManager::removeList()
             continue;
         }
         std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore(128, '\n');
     
         if (num < 1 || num > m_titleArr.size())
         {

@@ -12,6 +12,7 @@ bool g_running;
 
 void createFile (std::string file)
 {
+    //  Create file with passed name, 
     std::ifstream inf {file};
 
     if (!inf)
@@ -21,9 +22,20 @@ void createFile (std::string file)
     }
     else
     {
-        //std::cout << "File already exists \n";
-        ;
+        std::cout << "File already exists \n";
     }
+}
+
+std::string createFile ()
+{
+    //  Ask user to enter a name to create a file, for when no files exists,
+    //  and returns the file path
+    std::cout << "You don't have any lists, create one now: ";
+    std::string title;
+    std::getline(std::cin >> std::ws, title);
+    std::string path {"lists/" + title + ".dat"};
+    std::ofstream outf{path};
+    return path;
 }
 
 void query(ListManager& lm)
@@ -81,21 +93,86 @@ void query(ListManager& lm)
     }
 }
 
-
+/*
 int main ()
 {
     std::string dataFile{"./lists/todo.dat"};
     g_running = true;
     createFile(dataFile);
-
-    ListManager lm{"./lists", dataFile, "todo"};
-    lm.selectList();
-    lm.getActiveList().print();
+    ListManager lm{};
+    //ListManager lm{dataFile, "todo"};
+    //lm.selectList();
 
     while (g_running)
     {
         query(lm);
     }
     
+    return 0;
+}*/
+
+ListManager startup (std::string dir)
+{
+    //  Looks through given folder, returns a ListManager
+    std::vector<std::string> fileArr (0);
+    std::vector<std::string> titleArr (0);
+
+    for (const auto& entry : std::filesystem::directory_iterator(dir))
+    {
+        std::string file{entry.path()};
+        std::string title{file.substr(6, file.length())};
+        title.erase(title.end()-4, title.end());
+
+        fileArr.push_back(file);
+        titleArr.push_back(title);
+    }
+
+    if (!fileArr.empty())
+    {
+        
+        int printedNum {1};
+
+        std::cout << "\n**********\n";
+        for (int i{0}; i < titleArr.size(); ++i)
+        {
+            if (titleArr[i] != "") std::cout << '[' << printedNum++ << ']' << ' ' << titleArr[i] << '\n';
+        }
+        std::cout << "**********\n\n";
+
+        int num {0};
+        while(num < 1 || num > titleArr.size())
+        {
+            std::cout << "Select a list to open: ";
+            std::cin >> num;
+            std::cin.clear();
+            std::cin.ignore(128, '\n');
+        }
+
+        return ListManager {dir, fileArr, titleArr, num-1};
+    }
+    else
+    {
+        std::string filePath = createFile();
+        std::string title{filePath.substr(6, filePath.length())};
+        title.erase(title.end()-4, title.end());
+
+        fileArr.push_back(filePath);
+        titleArr.push_back(title);
+        
+        return ListManager {dir, fileArr, titleArr, 0};
+    }
+}
+
+int main ()
+{
+    g_running = true;
+    std::string listDir = "lists/";
+    ListManager lm {startup(listDir)};
+
+    while(g_running)
+    {
+        query(lm);
+    }
+
     return 0;
 }
