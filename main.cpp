@@ -7,7 +7,7 @@
 #include "TodoList.h"
 
 bool g_running;
-
+/*
 class ListManager
 {
     TodoList m_activeList;
@@ -56,7 +56,7 @@ public:
                 m_activeIndex = i;
                 break;
             } 
-        }  
+        }
     }
 
     
@@ -153,7 +153,7 @@ public:
 
     TodoList& getActiveList() {return m_activeList;}
 };
-
+*/
 void createFile (std::string file)
 {
     std::ifstream inf {file};
