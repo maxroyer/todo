@@ -1,11 +1,11 @@
-#include "ListManager.h"
-#include "TodoList.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 #include <filesystem>
 #include <limits>
+#include "ListManager.h"
+#include "TodoList.h"
 
 ListManager::ListManager (std::string dir, std::string file, std::string title): m_dir{dir}, m_activeList{file, title}
 {
@@ -93,7 +93,7 @@ void ListManager::printNumbered()
 
 }
 
-void ListManager::selectList(bool deleteMode = false)
+void ListManager::selectList(bool deleteMode)
 {
     printNumbered();
     int num {0};
@@ -118,7 +118,7 @@ void ListManager::selectList(bool deleteMode = false)
     }
 }
 
-void ListManager::setActiveList (int index, bool deleteMode = false)
+void ListManager::setActiveList (int index, bool deleteMode)
 {
     if (!deleteMode) m_activeList.saveToFile();
     m_activeIndex = index;

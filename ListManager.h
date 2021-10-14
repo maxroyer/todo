@@ -1,5 +1,10 @@
+#include <string>
+#include <vector>
+#include "TodoList.h"
+
 #ifndef LISTMANAGER_H
 #define LISTMANAGER_H
+
 
 class ListManager
 {

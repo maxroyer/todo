@@ -1,5 +1,9 @@
+#include <string>
+#include <vector>
+
 #ifndef TODOLIST_H
 #define TODOLIST_H
+
 
 class TodoList
 {
