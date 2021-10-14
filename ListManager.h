@@ -1,10 +1,7 @@
-#include <string>
-#include <vector>
-#include "TodoList.h"
-
 #ifndef LISTMANAGER_H
 #define LISTMANAGER_H
 
+#include "TodoList.h"
 
 class ListManager
 {
@@ -23,7 +20,7 @@ public:
     void removeList();
     void printNumbered();
     void selectList(bool deleteMode = false);
-    TodoList& getActiveList() {return m_activeList;}
+    TodoList& getActiveList();
 };
 
 

@@ -4,6 +4,9 @@
 #include <vector>
 #include <limits>
 #include "TodoList.h"
+#include "main.h"
+
+void createFile(std::string file);
 
 TodoList::TodoList(std::string file, std::string title)
 {
@@ -12,7 +15,13 @@ TodoList::TodoList(std::string file, std::string title)
     fileToArr();
     purgeArr();
 }
-
+/*
+TodoList::TodoList ()
+{
+    name = "default";
+    ::createFile();
+}
+*/
 void TodoList::setFile(std::string file)
 {
     filePath = file;

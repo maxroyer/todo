@@ -136,3 +136,8 @@ void ListManager::purgeArr()
         }
     }
 }
+
+TodoList& ListManager::getActiveList()
+{
+    return m_activeList;
+}

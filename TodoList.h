@@ -1,9 +1,7 @@
-#include <string>
-#include <vector>
-
 #ifndef TODOLIST_H
 #define TODOLIST_H
 
+#include "main.h"
 
 class TodoList
 {
@@ -13,6 +11,7 @@ class TodoList
 
 public:
     TodoList(std::string file, std::string title);
+    //TodoList();
 
     void setFile(std::string file);
     void fileToArr();

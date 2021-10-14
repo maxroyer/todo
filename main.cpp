@@ -6,6 +6,7 @@
 #include <limits>
 #include "TodoList.h"
 #include "ListManager.h"
+#include "main.h"
 
 bool g_running;
 
@@ -86,7 +87,7 @@ int main ()
     std::string dataFile{"./lists/todo.dat"};
     g_running = true;
     createFile(dataFile);
-    
+
     ListManager lm{"./lists", dataFile, "todo"};
     lm.selectList();
     lm.getActiveList().print();
