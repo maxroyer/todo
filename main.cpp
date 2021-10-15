@@ -63,36 +63,30 @@ void query(ListManager& lm)
     {
         if (command == "Add" || command == "add" || command == "A" || command == "a")
         {
-            lm.getActiveList().add();
-            //break;
+            lm.getActiveList().add();   
         }
         else if (command == "View" || command == "view" || command == "V" || command == "v")
         {
             lm.getActiveList().print();
-            //break;
         }
         else if (command == "quit" || command == "Quit" || command == "Q" || command == "q")
         {
             lm.getActiveList().saveToFile();
             std::cout << "Exiting\n";
             g_running = false;
-            //break;
         }
         else if (command == "Remove" || command == "remove" || command == "R" || command == "r")
         {
             lm.getActiveList().printNumbered();
-            lm.getActiveList().removeItem();
-            //break;
+            lm.getActiveList().removeItem(); 
         }
         else if (command == "N" || command == "n")
         {
             lm.newList();
-            //break;
         }
         else if (command == "S" || command == "s")
         {
             lm.selectList();
-            //break;
         }
         else if (command == "D" || command == "d")
         {
@@ -100,8 +94,7 @@ void query(ListManager& lm)
         }
         else
         {
-            std::cerr << "Command not recognized!\n";
-            //break;
+            std::cerr << "Command not recognized!\n"; 
         }
         break;
     }
