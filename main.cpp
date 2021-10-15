@@ -12,7 +12,7 @@ bool g_running;
 
 void createFile (std::string file)
 {
-    //  Create file with passed name, 
+    //  Create file with passed name, not currently used anywhere
     std::ifstream inf {file};
 
     if (!inf)
@@ -40,6 +40,7 @@ std::string createFile ()
 
 std::string pathToTitle (std::string path)
 {
+    //  Takes an file path input, in form "./path/to/file.dat", returns "file"
     std::string title;
     std::string::size_type pathEnd;
 
@@ -52,6 +53,7 @@ std::string pathToTitle (std::string path)
 
 void query(ListManager& lm)
 {
+    //  Command input controller
     std::cout << "Command(a/r/v/n/s/d/q): ";
     std::string command{};
     std::getline(std::cin, command);

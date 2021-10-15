@@ -9,6 +9,7 @@
 
 TodoList::TodoList(std::string file, std::string title)
 {
+    //  TodoList Constructor, takes the path and title of a todo .dat file
     name = title;
     setFile(file);
     fileToArr();
@@ -17,12 +18,16 @@ TodoList::TodoList(std::string file, std::string title)
 
 void TodoList::setFile(std::string file)
 {
+    //  Startup function that can probably be eliminated, see where used
+
+    //todo (maybe): set name of TodoList also
     filePath = file;
     fileToArr();
 }
 
 void TodoList::fileToArr()
 {
+    //  Looks at TodoList.filePath, takes file contents and populates TodoList.todoArr with them
     std::ifstream inf{filePath};
     int listLength {};
     std::string temp;
@@ -47,6 +52,7 @@ void TodoList::fileToArr()
 
 void TodoList::purgeArr()
 {
+    //  Removes any TodoList.todoArr elements that are ""
     for(int i{0}; i < todoArr.size(); ++i)
     {
         if (todoArr[i] == "")
@@ -58,6 +64,7 @@ void TodoList::purgeArr()
 
 void TodoList::print() const
 {
+    //  Prints out formated version of TodoList
     std::cout << "\n***************\n***************\n\nTo-Do: "<< name << "\n-------\n";
     for (auto i : todoArr)
     {
@@ -68,6 +75,7 @@ void TodoList::print() const
 
 void TodoList::printNumbered() 
 {
+    //  Prints out numbered version of TodoList
     purgeArr();
     std::cout << "\n**********\n";
     for (int i{0}; i < todoArr.size(); ++i)
@@ -79,6 +87,7 @@ void TodoList::printNumbered()
 
 void TodoList::add()
 {
+    //  Gets user input for new list entry and adds to TodoList.todoArr
     std::cout << "Add to list: ";
     std::string newItem{};
     std::getline(std::cin >> std::ws, newItem);
@@ -89,6 +98,7 @@ void TodoList::add()
 
 void TodoList::removeItem()
 {
+    //  Gets user input and removes selected TodoList.todoArr entry
     int num {};
 
     while(true)
@@ -124,6 +134,7 @@ void TodoList::removeItem()
 
 void TodoList::saveToFile()
 {
+    //  Saves TodoList.todoArr to TodoList.filePath
     std::ofstream outf{filePath, std::ios::trunc};
     for (std::string item : todoArr)
     {

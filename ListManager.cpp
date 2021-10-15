@@ -8,15 +8,18 @@
 #include "TodoList.h"
 
 
-ListManager::ListManager (std::string dir, std::vector<std::string> fileArr, std::vector<std::string> titleArr, int selectedIndex): m_dir {dir}, m_fileArr {fileArr}, m_titleArr {titleArr}, m_activeList {fileArr[selectedIndex], titleArr[selectedIndex]}
+ListManager::ListManager (std::string dir, std::vector<std::string> fileArr, std::vector<std::string> titleArr, int selectedIndex)
+    : m_dir {dir}, m_fileArr {fileArr}, m_titleArr {titleArr}, m_activeList {fileArr[selectedIndex], titleArr[selectedIndex]}
 {
+    //  ListManager Constructor, requires dir string, a vector of strings containing file paths,
+    //  a corresponding vector of titles, and the user selected index for the active list
     purgeArr();
     m_activeList.print();
 }
 
 void ListManager::newList()
 {
-    //m_dir = "./lists";
+    //  Gets user input to name and create a new list
     std::cout << "New List Name: ";
     std::string title;
     std::getline(std::cin >> std::ws, title);
@@ -29,6 +32,7 @@ void ListManager::newList()
 
 void ListManager::removeList()
 {
+    //  Calls printNumbered(), the gets user input to delete a list
     printNumbered();
     int num {0};
 
@@ -68,6 +72,7 @@ void ListManager::removeList()
 
 void ListManager::printNumbered()
 {
+    // Prints numbered list of ListManager.m_titleArr
     int printedNum {1};
     std::cout << "\n**********\n";
     for (int i{0}; i < m_titleArr.size(); ++i)
@@ -80,6 +85,8 @@ void ListManager::printNumbered()
 
 void ListManager::selectList(bool deleteMode)
 {
+    // Calls printNumbered(), then gets user input to select a new active list
+    // Parameter deleteMode = false by default, use true when calling after deleting a list
     printNumbered();
     int num {0};
 
@@ -105,6 +112,8 @@ void ListManager::selectList(bool deleteMode)
 
 void ListManager::setActiveList (int index, bool deleteMode)
 {
+    //  Takes index which is selected index in ListManager.m_fileArr and uses it to set ListManager.m_activeTodoList.
+    //  Optional parameter deleteMode (default false) determines if the current TodoList is saved first.
     if (!deleteMode) m_activeList.saveToFile();
     m_activeIndex = index;
     m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
@@ -112,6 +121,7 @@ void ListManager::setActiveList (int index, bool deleteMode)
 
 void ListManager::purgeArr()
 {
+    //  Removes elements equal to "" from m_titleArr and m_fileArr
     for (int i{0}; i < m_fileArr.size(); ++i)
     {
         if (m_fileArr[i] == "")
