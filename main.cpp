@@ -33,7 +33,7 @@ std::string createFile ()
     std::cout << "You don't have any lists, create one now: ";
     std::string title;
     std::getline(std::cin >> std::ws, title);
-    std::string path {"lists/" + title + ".dat"};
+    std::string path {"./lists/" + title + ".dat"};
     std::ofstream outf{path};
     return path;
 }

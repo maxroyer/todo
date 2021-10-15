@@ -4,5 +4,6 @@
 
 void createFile (std::string file);
 std::string createFile ();
+std::string pathToTitle(std::string path);
 
 #endif
