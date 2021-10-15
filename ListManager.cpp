@@ -76,12 +76,6 @@ void ListManager::removeList()
         m_titleArr.push_back(pathToTitle(m_fileArr[0]));
         m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
     }
-    /*
-    else if (m_fileArr.size() ==0 && remove == m_activeIndex)
-    {
-
-    }
-    */
     else selectList();
 
 }
