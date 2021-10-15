@@ -9,7 +9,7 @@
 
 
 ListManager::ListManager (std::string dir, std::vector<std::string> fileArr, std::vector<std::string> titleArr, int selectedIndex)
-    : m_dir {dir}, m_fileArr {fileArr}, m_titleArr {titleArr}, m_activeList {fileArr[selectedIndex], titleArr[selectedIndex]}
+    : m_dir {dir}, m_fileArr {fileArr}, m_titleArr {titleArr}, m_activeList {fileArr[selectedIndex], titleArr[selectedIndex]}, m_activeIndex {selectedIndex}
 {
     //  ListManager Constructor, requires dir string, a vector of strings containing file paths,
     //  a corresponding vector of titles, and the user selected index for the active list
