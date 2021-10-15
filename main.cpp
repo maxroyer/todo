@@ -93,24 +93,6 @@ void query(ListManager& lm)
     }
 }
 
-/*
-int main ()
-{
-    std::string dataFile{"./lists/todo.dat"};
-    g_running = true;
-    createFile(dataFile);
-    ListManager lm{};
-    //ListManager lm{dataFile, "todo"};
-    //lm.selectList();
-
-    while (g_running)
-    {
-        query(lm);
-    }
-    
-    return 0;
-}*/
-
 ListManager startup (std::string dir)
 {
     //  Looks through given folder, returns a ListManager
