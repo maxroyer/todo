@@ -11,8 +11,7 @@ class TodoList
 
 public:
     TodoList(std::string file, std::string title);
-    //TodoList();
-
+    
     void setFile(std::string file);
     void fileToArr();
     void purgeArr();

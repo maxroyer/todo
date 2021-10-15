@@ -6,7 +6,6 @@
 #include "TodoList.h"
 #include "main.h"
 
-void createFile(std::string file);
 
 TodoList::TodoList(std::string file, std::string title)
 {
@@ -15,18 +14,6 @@ TodoList::TodoList(std::string file, std::string title)
     fileToArr();
     purgeArr();
 }
-
-/*TodoList::TodoList ()
-{   
-    filePath = createFile();
-
-    std::string name{filePath.substr(8, filePath.length())};
-    name.erase(name.end()-4, name.end());
-    
-    setFile(filePath);
-    fileToArr();
-    purgeArr();
-}*/
 
 void TodoList::setFile(std::string file)
 {

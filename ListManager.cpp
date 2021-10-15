@@ -16,7 +16,7 @@ ListManager::ListManager (std::string dir, std::vector<std::string> fileArr, std
 
 void ListManager::newList()
 {
-    m_dir = "./lists";
+    //m_dir = "./lists";
     std::cout << "New List Name: ";
     std::string title;
     std::getline(std::cin >> std::ws, title);

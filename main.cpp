@@ -22,7 +22,7 @@ void createFile (std::string file)
     }
     else
     {
-        std::cout << "File already exists \n";
+        //std::cout << "File already exists \n";
     }
 }
 
@@ -36,6 +36,18 @@ std::string createFile ()
     std::string path {"lists/" + title + ".dat"};
     std::ofstream outf{path};
     return path;
+}
+
+std::string pathToTitle (std::string path)
+{
+    std::string title;
+    std::string::size_type pathEnd;
+
+    pathEnd = path.find_last_of('/');
+    title = path.substr(pathEnd+1);
+    title.erase(title.end()-4, title.end());
+
+    return title;
 }
 
 void query(ListManager& lm)
@@ -102,8 +114,7 @@ ListManager startup (std::string dir)
     for (const auto& entry : std::filesystem::directory_iterator(dir))
     {
         std::string file{entry.path()};
-        std::string title{file.substr(6, file.length())};
-        title.erase(title.end()-4, title.end());
+        std::string title {pathToTitle(file)};
 
         fileArr.push_back(file);
         titleArr.push_back(title);
@@ -135,8 +146,7 @@ ListManager startup (std::string dir)
     else
     {
         std::string filePath = createFile();
-        std::string title{filePath.substr(6, filePath.length())};
-        title.erase(title.end()-4, title.end());
+        std::string title {pathToTitle(filePath)};
 
         fileArr.push_back(filePath);
         titleArr.push_back(title);
@@ -148,7 +158,7 @@ ListManager startup (std::string dir)
 int main ()
 {
     g_running = true;
-    std::string listDir = "lists/";
+    std::string listDir = "./lists";
     ListManager lm {startup(listDir)};
 
     while(g_running)
