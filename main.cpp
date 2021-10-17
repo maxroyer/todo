@@ -10,7 +10,72 @@
 
 bool g_running;
 
+class SettingsManager
+{
+    std::string m_listDir;
+    std::string m_configPath;
+    std::string m_activeTodoPath;
 
+public:
+    SettingsManager (std::string configPath) : m_configPath {configPath}
+    {
+        bool configExist {checkConfig()};
+
+        if (configExist) loadConfig();
+        else
+        {
+            createConfigFile();
+            std::cout << "Config not found, creating now...\nUsing default path for lists folder.\n";
+            m_listDir = "./lists";
+            m_activeTodoPath = "";
+        }
+    }
+
+    bool checkConfig () 
+    {
+        if (std::filesystem::exists(m_configPath)) return true;
+        else return false;
+    }
+
+    void createConfigFile () 
+    {
+        //  Creates new or deletes and replaces current config file
+        std::ofstream outf{m_configPath, std::ios::trunc};
+    }
+
+    void loadConfig ()
+    {
+        std::ifstream inf{m_configPath};
+        std::vector<std::string> settingsArr (0);
+        std::string temp{};
+        while (inf)
+        {
+            std::getline(inf, temp);
+            settingsArr.push_back(temp);
+        }
+        m_listDir = settingsArr[0];
+        m_activeTodoPath = settingsArr[1];
+    }
+
+    void saveConfig (ListManager& lm)
+    {
+        //  Should probably take a ListManager as a parameter.
+        m_activeTodoPath = lm.m_activeList.filePath;
+        std::ofstream outf {m_configPath, std::ios::trunc};
+        
+        outf << m_listDir << '\n' << m_activeTodoPath;
+    }
+
+    std::string getListDir ()
+    {
+        return m_listDir;
+    }
+
+    std::string getActiveListPath()
+    {
+        return m_activeTodoPath;
+    }
+};
 
 void createFile (std::string file)
 {
@@ -190,6 +255,104 @@ ListManager startup (std::string dir)
     }
 }
 
+ListManager startup (SettingsManager& SM)
+{
+    //  Looks through given folder, returns a ListManager
+    std::string dir {SM.getListDir()};
+    std::vector<std::string> fileArr (0);
+    std::vector<std::string> titleArr (0);
+
+    for (const auto& entry : std::filesystem::directory_iterator(dir))
+    {
+        std::string file{entry.path()};
+        std::string title {pathToTitle(file)};
+
+        fileArr.push_back(file);
+        titleArr.push_back(title);
+    }
+
+    bool preselected = {SM.getActiveListPath() != ""};
+
+    if (!fileArr.empty() && preselected)
+    {
+        std::string activePath = SM.getActiveListPath();
+        int activeIndex {};
+        for (int ii{0}; ii < fileArr.size(); ++ii )
+        {
+            if (fileArr[ii] == activePath)
+            {
+                activeIndex = ii;
+            }
+        }
+
+        return ListManager {dir, fileArr, titleArr, activeIndex};
+    }
+    else if (!fileArr.empty() && !preselected)
+    {
+        int printedNum {1};
+
+        std::cout << "\n**********\n";
+        for (int i{0}; i < titleArr.size(); ++i)
+        {
+            if (titleArr[i] != "") std::cout << '[' << printedNum++ << ']' << ' ' << titleArr[i] << '\n';
+        }
+        std::cout << "**********\n\n";
+
+        int num {0};
+        while(num < 1 || num > titleArr.size())
+        {
+            std::cout << "Select a list to open: ";
+            std::cin >> num;
+            std::cin.clear();
+            std::cin.ignore(128, '\n');
+        }
+
+        return ListManager {dir, fileArr, titleArr, num-1};
+    }
+    else
+    {
+        std::string filePath = createFile();
+        std::string title {pathToTitle(filePath)};
+
+        fileArr.push_back(filePath);
+        titleArr.push_back(title);
+        
+        return ListManager {dir, fileArr, titleArr, 0};
+    }
+}
+
+int main (int argc, char* argv[])
+{
+    g_running = true;
+    std::string configPath = "todo.config";
+    SettingsManager SM {configPath};
+    ListManager lm {startup(SM)};
+
+    std::vector<std::string> args(0);
+
+    for (int i {1}; i < argc; ++i)
+    {
+        args.push_back(std::string {argv[i]});
+    }
+
+    if (argc > 1)
+    {
+        query(lm, args);
+        SM.saveConfig(lm);
+    }
+    else if (argc == 1)
+    {
+        while (g_running)
+        {
+            query(lm);
+        }
+    }
+
+    SM.saveConfig(lm);
+    return 0;
+}
+
+/*
 int main (int argc, char* argv[])
 {
     g_running = true;
@@ -205,12 +368,13 @@ int main (int argc, char* argv[])
 
     query(lm, args);
     
-    /*
-    while(g_running)
-    {
-        query(lm);
-    }
-    */
+    
+    // while(g_running)
+    // {
+    //     query(lm);
+    // }
+    
 
     return 0;
 }
+*/

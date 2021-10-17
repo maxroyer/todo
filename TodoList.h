@@ -21,6 +21,7 @@ public:
     void removeItem();
     void saveToFile();
     friend class ListManager;
+    friend class SettingsManager;
 
 };
 

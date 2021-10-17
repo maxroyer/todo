@@ -21,6 +21,8 @@ public:
     void printNumbered();
     void selectList(bool deleteMode = false);
     TodoList& getActiveList();
+
+    friend class SettingsManager;
 };
 
 
