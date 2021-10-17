@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <filesystem>
-#include <limits>
 #include "TodoList.h"
 #include "ListManager.h"
 #include "main.h"
@@ -351,30 +350,3 @@ int main (int argc, char* argv[])
     SM.saveConfig(lm);
     return 0;
 }
-
-/*
-int main (int argc, char* argv[])
-{
-    g_running = true;
-    std::string listDir = "./lists";
-    ListManager lm {startup(listDir)};
-    //
-    std::vector<std::string> args(0);
-
-    for (int i {1}; i < argc; ++i)
-    {
-        args.push_back(std::string {argv[i]});
-    }
-
-    query(lm, args);
-    
-    
-    // while(g_running)
-    // {
-    //     query(lm);
-    // }
-    
-
-    return 0;
-}
-*/
