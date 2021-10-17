@@ -10,6 +10,8 @@
 
 bool g_running;
 
+
+
 void createFile (std::string file)
 {
     //  Create file with passed name, not currently used anywhere
@@ -100,6 +102,44 @@ void query(ListManager& lm)
     }
 }
 
+void query(ListManager& lm, std::vector<std::string> argv)
+{
+    //  Command input controller with CLI arguments. Takes in std::vector format
+    int argc {static_cast<int>(argv.size())};
+    for (int i{0}; i < argc; ++i)
+    {
+        if (argv[i] == "--add")
+        {
+            lm.getActiveList().add();
+        }
+        else if (argv[i] == "--todo")
+        {
+            lm.getActiveList().print();
+        }
+        else if (argv[i] == "--done")
+        {
+            lm.getActiveList().printNumbered();
+            lm.getActiveList().removeItem();
+        }
+        else if (argv[i] == "--new")
+        {
+            lm.newList();;
+        }
+        else if (argv[i] == "--switch")
+        {
+            lm.selectList();;
+        }
+        else if (argv[i] == "--delete")
+        {
+            lm.removeList();;
+        }
+        else if (argv[i] == "--lists")
+        {
+            lm.printNumbered();
+        }
+    }
+}
+
 ListManager startup (std::string dir)
 {
     //  Looks through given folder, returns a ListManager
@@ -150,16 +190,27 @@ ListManager startup (std::string dir)
     }
 }
 
-int main ()
+int main (int argc, char* argv[])
 {
     g_running = true;
     std::string listDir = "./lists";
     ListManager lm {startup(listDir)};
+    //
+    std::vector<std::string> args(0);
 
+    for (int i {1}; i < argc; ++i)
+    {
+        args.push_back(std::string {argv[i]});
+    }
+
+    query(lm, args);
+    
+    /*
     while(g_running)
     {
         query(lm);
     }
+    */
 
     return 0;
 }
