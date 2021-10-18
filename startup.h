@@ -24,8 +24,6 @@ public:
 void createFile (std::string file);
 std::string createFile ();
 std::string pathToTitle(std::string path);
-void query (ListManager& lm);
-void query (ListManager& lm, std::vector<std::string> argv);
 ListManager startup (std::string dir);
 ListManager startup (SettingsManager& SM);
 
