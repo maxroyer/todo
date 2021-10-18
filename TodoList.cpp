@@ -4,7 +4,6 @@
 #include <vector>
 #include <limits>
 #include "TodoList.h"
-#include "main.h"
 
 
 TodoList::TodoList(std::string file, std::string title)

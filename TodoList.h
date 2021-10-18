@@ -1,7 +1,10 @@
 #ifndef TODOLIST_H
 #define TODOLIST_H
 
-#include "main.h"
+#include <string>
+#include <vector>
+
+
 
 class TodoList
 {

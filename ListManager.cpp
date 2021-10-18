@@ -4,8 +4,10 @@
 #include <vector>
 #include <filesystem>
 #include <limits>
+
 #include "ListManager.h"
 #include "TodoList.h"
+#include "startup.h"
 
 
 ListManager::ListManager (std::string dir, std::vector<std::string> fileArr, std::vector<std::string> titleArr, int selectedIndex)

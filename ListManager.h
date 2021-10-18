@@ -2,6 +2,8 @@
 #define LISTMANAGER_H
 
 #include "TodoList.h"
+#include <string>
+#include <vector>
 
 class ListManager
 {
