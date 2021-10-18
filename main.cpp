@@ -346,7 +346,7 @@ int main (int argc, char* argv[])
             query(lm);
         }
     }
-
+    lm.getActiveList().saveToFile();
     SM.saveConfig(lm);
     return 0;
 }
