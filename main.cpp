@@ -9,6 +9,9 @@
 #include "main.h"
 #include "startup.h"
 
+#include "cm.cpp"
+
+
 void query(ListManager& lm)
 {
     //  Command input controller
@@ -98,6 +101,12 @@ void query(ListManager& lm, std::vector<std::string> argv)
 
 int main (int argc, char* argv[])
 {
+    Command Add {"--add", true, 1, 1};
+    CommandManager CM{};
+    CM.addCommand(Add);
+    CM.parse(argc, argv);
+
+
     g_running = true;
     std::string configPath = "todo.config";
     SettingsManager SM {configPath};
