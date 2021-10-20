@@ -101,9 +101,14 @@ void query(ListManager& lm, std::vector<std::string> argv)
 
 int main (int argc, char* argv[])
 {
-    Command Add {"--add", true, 1, 1};
     CommandManager CM{};
-    CM.addCommand(Add);
+    CM.addCommand("--add", true, 1, 1);
+    CM.addCommand("--todo", false, 0, 0);
+    CM.addCommand("--new", true, 1, 1);
+    CM.addCommand("--done", false, 0, 0);
+    CM.addCommand("--switch", false, 1, 0);
+    CM.addCommand("--delete", false, 1, 0);
+    CM.addCommand("--lists", false, 0, 0);
     CM.parse(argc, argv);
 
 

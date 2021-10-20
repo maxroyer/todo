@@ -13,7 +13,7 @@ class Command
     std::vector<std::string> m_argv{};
 
 public:
-    Command (std::string id, bool argsReq, int min, int max) 
+    Command (std::string id, bool argsReq, int max, int min) 
         : m_id {id}, m_argsReq {argsReq}, m_minArgs {min}, m_maxArgs {max}
     {
         argc = 0;        
@@ -29,11 +29,12 @@ public:
     bool checkIfValid ()
     {
         //  Makes sure minArgs <= argc <= maxArgs
-        if (m_minArgs <= argc && m_maxArgs >= argc) return true;
+        if (m_argsReq && m_minArgs <= argc && m_maxArgs >= argc) return true;
+        else if (!m_argsReq && m_minArgs == 0) return true;
         else return false;
     }
 
-    std::string getID() {return m_id;}
+    std::string getID() const {return m_id;}
 
     void addArg (std::string arg)
     {
@@ -44,17 +45,19 @@ public:
 class CommandManager
 {
 private:
-    std::vector<std::reference_wrapper<Command>> m_commandArr{};    //Holds all commands
-    std::vector<std::reference_wrapper<Command>> m_execArr{};       //Holds commands to be executed
+    //std::vector<std::reference_wrapper<const Command>> m_commandArr{};    //Holds all commands
+    std::vector<Command> m_commandArr{};
+    std::vector<Command> m_execArr{};       //Holds commands to be executed
     std::vector<std::string> m_argv{};
     int m_argc{};
     
 public:
     CommandManager () = default;
 
-    void addCommand (Command newCom)
+    void addCommand (std::string id, bool argsReq, int maxArgs, int minArgs)
     {
-        m_commandArr.push_back(newCom);
+        //m_commandArr.push_back(newCom);
+        m_commandArr.push_back(Command {id, argsReq, maxArgs, minArgs});
     }
 
     void parse (int argc, char* argv[])
@@ -79,11 +82,11 @@ public:
             int index = comLocs[j];
             for (auto com : m_commandArr)
             {
-                if (m_argv[index] == com.get().getID())
+                if (m_argv[index] == com.getID())
                 {
                     //  Give command relevant arguments
                     //  Create command w/ args in m_execArr? Check # of parameters first
-                    Command tempCom { com.get()};
+                    Command tempCom {com};
                     std::vector<std::string> givenArgs(0);
                     int count {1};
                     while(m_argv.size() > (index + count))
