@@ -48,10 +48,11 @@ void query(ListManager& lm)
         else if (command == "S" || command == "s")
         {
             lm.selectList();
+            lm.getActiveList().print();
         }
         else if (command == "D" || command == "d")
         {
-            lm.removeUserSelectedList();
+            lm.removeListFromUser();
         }
         else
         {
@@ -72,7 +73,7 @@ void query(std::vector<Command> commandArr, ListManager& lm)
         {
             lm.getActiveList().addItem(command.getArg(0));
         }
-        else if (command.getID() == "--todo")
+        else if (command.getID() == "--view")
         {
             lm.getActiveList().print();
         }
@@ -92,13 +93,23 @@ void query(std::vector<Command> commandArr, ListManager& lm)
         else if (command.getID() == "--switch")
         {
             //  Add option to enter list title as an argument
-            lm.selectList();;
+            lm.selectList();
+            lm.getActiveList().print();
         }
         else if (command.getID() == "--delete")
         {
-            //  fix to take argument
-             if (command.getArgCount() == 1) lm.removeList(command.getArgAsInt(0));
-             else  lm.removeUserSelectedList();
+            //  Needs support for entering a list name in addition to title
+            
+            bool argIsNum{};
+            if (command.getArgCount() == 1)
+            {
+                bool argIsDigit{ command.getArg(0).find_first_not_of("0123456789") == std::string::npos };
+
+                if (argIsDigit) lm.removeList(command.getArgAsInt(0));
+                else lm.removeList(command.getArg(0));
+            }
+
+            else  lm.removeListFromUser();
         }
         else if (command.getID() == "--lists")
         {
@@ -115,7 +126,7 @@ int main (int argc, char* argv[])
 {
     CommandManager CM{};
     CM.addCommand("--add", true, 1, 1);
-    CM.addCommand("--todo", false, 0, 0);
+    CM.addCommand("--view", false, 0, 0);
     CM.addCommand("--new", true, 1, 1);
     CM.addCommand("--done", false, 0, 0);
     CM.addCommand("--switch", false, 1, 0);

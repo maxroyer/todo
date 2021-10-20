@@ -40,7 +40,7 @@ void ListManager::createNewList(std::string title)
     setActiveList(m_fileArr.size() - 1);
 }
 
-void ListManager::removeUserSelectedList()
+void ListManager::removeListFromUser()
 {
     //  Calls printNumbered(), the gets user input to delete a list
     printNumbered();
@@ -109,6 +109,46 @@ void ListManager::removeList(int listNumber)
         m_fileArr[remove] = "";
         m_titleArr[remove] = "";
         purgeArr();
+
+        if (m_fileArr.size() != 0 && remove == m_activeIndex) selectList(true);
+        else if (m_fileArr.size() == 0)
+        {
+            m_fileArr.push_back(createFile());
+            m_activeIndex = 0;
+            m_titleArr.push_back(pathToTitle(m_fileArr[0]));
+            m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
+        }
+        else selectList();
+    }
+}
+//  Methods above and below need a way to set new active list
+void ListManager::removeList (std::string title)
+{
+    int remove{-1};
+    for (int i {0}; i < m_titleArr.size(); ++i)
+    {
+        if (m_titleArr[i] == title) remove = i;
+    }
+    if (remove == -1) std::cout << "List not found\n";
+    else
+    {     
+        std::ifstream inf{m_fileArr[remove]};
+        inf.close();
+        std::filesystem::remove(m_fileArr[remove]);
+
+        m_fileArr[remove] = "";
+        m_titleArr[remove] = "";
+        purgeArr();
+        
+        if (m_fileArr.size() != 0 && remove == m_activeIndex) selectList(true);
+        else if (m_fileArr.size() == 0)
+        {
+            m_fileArr.push_back(createFile());
+            m_activeIndex = 0;
+            m_titleArr.push_back(pathToTitle(m_fileArr[0]));
+            m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
+        }
+        else selectList();
     }
 }
 
@@ -134,22 +174,14 @@ void ListManager::selectList(bool deleteMode)
 
     while(num < 1 || num > m_titleArr.size())
     {
-        std::cout << "Select a list to open: ";
+        std::cout << "Set active list: ";
         std::cin >> num;
         std::cin.clear();
         std::cin.ignore(128, '\n');
     }
 
-    if (deleteMode)
-    {
-        setActiveList(num - 1, deleteMode);
-        m_activeList.print(); 
-    }
-    else
-    {
-        setActiveList(num - 1);
-        m_activeList.print();
-    }
+    if (deleteMode) setActiveList(num - 1, deleteMode);
+    else setActiveList(num - 1);
 }
 
 void ListManager::setActiveList (int index, bool deleteMode)
