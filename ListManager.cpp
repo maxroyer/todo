@@ -86,7 +86,7 @@ void ListManager::removeListFromUser()
         m_titleArr.push_back(pathToTitle(m_fileArr[0]));
         m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
     }
-    else selectList();
+    else selectListFromUser();
 
 }
 
@@ -118,7 +118,7 @@ void ListManager::removeList(int listNumber)
             m_titleArr.push_back(pathToTitle(m_fileArr[0]));
             m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
         }
-        else selectList();
+        else selectListFromUser();
     }
 }
 //  Methods above and below need a way to set new active list
@@ -148,7 +148,7 @@ void ListManager::removeList (std::string title)
             m_titleArr.push_back(pathToTitle(m_fileArr[0]));
             m_activeList = TodoList{m_fileArr[m_activeIndex], m_titleArr[m_activeIndex]};
         }
-        else selectList();
+        else selectListFromUser();
     }
 }
 
@@ -165,7 +165,7 @@ void ListManager::printNumbered()
 
 }
 
-void ListManager::selectList(bool deleteMode)
+void ListManager::selectListFromUser(bool deleteMode)
 {
     // Calls printNumbered(), then gets user input to select a new active list
     // Parameter deleteMode = false by default, use true when calling after deleting a list
@@ -183,6 +183,26 @@ void ListManager::selectList(bool deleteMode)
     if (deleteMode) setActiveList(num - 1, deleteMode);
     else setActiveList(num - 1);
 }
+
+void ListManager::selectList (int index)
+{
+    if (index > 0 && index < m_titleArr.size()) setActiveList(index);
+    else std::cout << "List not found\n";
+}
+
+void ListManager::selectList (std::string title)
+{
+    int selected{-1};
+    for (int i {0}; i < m_titleArr.size(); ++i)
+    {
+        if (m_titleArr[i] == title) selected = i;
+    }
+    if (selected == -1) std::cout << "List not found\n";
+    else setActiveList(selected);
+
+}
+
+
 
 void ListManager::setActiveList (int index, bool deleteMode)
 {

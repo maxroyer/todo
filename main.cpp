@@ -47,7 +47,7 @@ void query(ListManager& lm)
         }
         else if (command == "S" || command == "s")
         {
-            lm.selectList();
+            lm.selectListFromUser();
             lm.getActiveList().print();
         }
         else if (command == "D" || command == "d")
@@ -73,16 +73,19 @@ void query(std::vector<Command> commandArr, ListManager& lm)
         {
             lm.getActiveList().addItem(command.getArg(0));
         }
+
         else if (command.getID() == "--view")
         {
             lm.getActiveList().print();
         }
+
         else if (command.getID() == "--done")
         {
             //  need option to enter a number to delete a list item
             lm.getActiveList().printNumbered();
             lm.getActiveList().removeItem();
         }
+
         else if (command.getID() == "--new")
         {
             //  If a list title is included then it is used, otherwise user is promted to enter one
@@ -90,16 +93,28 @@ void query(std::vector<Command> commandArr, ListManager& lm)
             else lm.createNewList(command.getArg(0));
 
         }
+
         else if (command.getID() == "--switch")
         {
-            //  Add option to enter list title as an argument
-            lm.selectList();
-            lm.getActiveList().print();
+            bool argIsNum{};
+            if (command.getArgCount() == 1)
+            {
+                bool argIsDigit{ command.getArg(0).find_first_not_of("0123456789") == std::string::npos };
+
+                if (argIsDigit) lm.selectList( command.getArgAsInt(0) - 1 );
+                else lm.selectList(command.getArg(0));
+            }
+
+            else
+            {
+                lm.selectListFromUser   ();
+                lm.getActiveList().print();
+            }
+
         }
+
         else if (command.getID() == "--delete")
         {
-            //  Needs support for entering a list name in addition to title
-            
             bool argIsNum{};
             if (command.getArgCount() == 1)
             {
@@ -111,10 +126,12 @@ void query(std::vector<Command> commandArr, ListManager& lm)
 
             else  lm.removeListFromUser();
         }
+
         else if (command.getID() == "--lists")
         {
             lm.printNumbered();
         }
+
         else if (command.getID() == "--test")
         {
             std::cout << "test line\n";

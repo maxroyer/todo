@@ -24,7 +24,9 @@ public:
     void removeList(int listNumber);
     void removeList(std::string title);
     void printNumbered();
-    void selectList(bool deleteMode = false);
+    void selectListFromUser(bool deleteMode = false);
+    void selectList (int index);
+    void selectList (std::string title);
     TodoList& getActiveList();
 
     friend class SettingsManager;
