@@ -51,7 +51,7 @@ void query(ListManager& lm)
         }
         else if (command == "D" || command == "d")
         {
-            lm.removeList();
+            lm.removeUserSelectedList();
         }
         else
         {
@@ -65,7 +65,7 @@ void query(ListManager& lm)
 
 void query(std::vector<Command> commandArr, ListManager& lm)
 {
-    //  Command input controller with CLI arguments. Takes in std::vector format
+    //  Command input controller with CLI arguments. Takes in std::vector<command> format
     for (auto command : commandArr)
     {
         if (command.getID() == "--add")
@@ -78,24 +78,27 @@ void query(std::vector<Command> commandArr, ListManager& lm)
         }
         else if (command.getID() == "--done")
         {
+            //  need option to enter a number to delete a list item
             lm.getActiveList().printNumbered();
             lm.getActiveList().removeItem();
         }
         else if (command.getID() == "--new")
         {
-            //  fix to take argument
+            //  If a list title is included then it is used, otherwise user is promted to enter one
             if (command.getArgCount() == 0) lm.newListFromUser();
             else lm.createNewList(command.getArg(0));
 
         }
         else if (command.getID() == "--switch")
         {
+            //  Add option to enter list title as an argument
             lm.selectList();;
         }
         else if (command.getID() == "--delete")
         {
             //  fix to take argument
-            lm.removeList();;
+             if (command.getArgCount() == 1) lm.removeList(command.getArgAsInt(0));
+             else  lm.removeUserSelectedList();
         }
         else if (command.getID() == "--lists")
         {

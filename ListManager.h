@@ -20,7 +20,8 @@ public:
     ListManager(std::string dir, std::vector<std::string> fileArr, std::vector<std::string> titleArr, int selectedIndex);
     void createNewList(std::string title);
     void newListFromUser();
-    void removeList();
+    void removeUserSelectedList ();
+    void removeList(int listNumber);
     void printNumbered();
     void selectList(bool deleteMode = false);
     TodoList& getActiveList();

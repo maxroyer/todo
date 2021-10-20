@@ -40,7 +40,7 @@ void ListManager::createNewList(std::string title)
     setActiveList(m_fileArr.size() - 1);
 }
 
-void ListManager::removeList()
+void ListManager::removeUserSelectedList()
 {
     //  Calls printNumbered(), the gets user input to delete a list
     printNumbered();
@@ -88,6 +88,28 @@ void ListManager::removeList()
     }
     else selectList();
 
+}
+
+void ListManager::removeList(int listNumber)
+{
+    //  Takes listNumber, NOT index in m_fielArray
+    if (listNumber < 1 || listNumber > m_titleArr.size())
+        {
+            std::cout << "Out of Range\n";
+        }
+    else
+    {
+        
+        int remove {listNumber - 1};
+        
+        std::ifstream inf{m_fileArr[remove]};
+        inf.close();
+        std::filesystem::remove(m_fileArr[remove]);
+
+        m_fileArr[remove] = "";
+        m_titleArr[remove] = "";
+        purgeArr();
+    }
 }
 
 void ListManager::printNumbered()

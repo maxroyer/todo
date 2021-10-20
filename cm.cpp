@@ -49,6 +49,12 @@ public:
     {
         return argc;
     }
+
+    int getArgAsInt (int index)
+    {
+        //  Add exception handling
+        return std::stoi(m_argv[index]);
+    }
 };
 
 class CommandManager
