@@ -20,7 +20,7 @@ public:
     void purgeArr();
     void print() const;
     void printNumbered();
-    void add();
+    void addFromUser();
     void addItem(std::string item);
     void removeItem();
     void saveToFile();

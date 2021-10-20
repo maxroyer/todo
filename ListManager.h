@@ -18,7 +18,8 @@ class ListManager
 
 public:
     ListManager(std::string dir, std::vector<std::string> fileArr, std::vector<std::string> titleArr, int selectedIndex);
-    void newList();
+    void createNewList(std::string title);
+    void newListFromUser();
     void removeList();
     void printNumbered();
     void selectList(bool deleteMode = false);

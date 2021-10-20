@@ -24,7 +24,7 @@ void query(ListManager& lm)
     {
         if (command == "Add" || command == "add" || command == "A" || command == "a")
         {
-            lm.getActiveList().add();   
+            lm.getActiveList().addFromUser();   
         }
         else if (command == "View" || command == "view" || command == "V" || command == "v")
         {
@@ -43,7 +43,7 @@ void query(ListManager& lm)
         }
         else if (command == "N" || command == "n")
         {
-            lm.newList();
+            lm.newListFromUser();
         }
         else if (command == "S" || command == "s")
         {
@@ -61,43 +61,7 @@ void query(ListManager& lm)
     }
 }
 
-void query(ListManager& lm, std::vector<std::string> argv)
-{
-    //  Command input controller with CLI arguments. Takes in std::vector format
-    int argc {static_cast<int>(argv.size())};
-    for (int i{0}; i < argc; ++i)
-    {
-        if (argv[i] == "--add")
-        {
-            lm.getActiveList().add();
-        }
-        else if (argv[i] == "--todo")
-        {
-            lm.getActiveList().print();
-        }
-        else if (argv[i] == "--done")
-        {
-            lm.getActiveList().printNumbered();
-            lm.getActiveList().removeItem();
-        }
-        else if (argv[i] == "--new")
-        {
-            lm.newList();;
-        }
-        else if (argv[i] == "--switch")
-        {
-            lm.selectList();;
-        }
-        else if (argv[i] == "--delete")
-        {
-            lm.removeList();;
-        }
-        else if (argv[i] == "--lists")
-        {
-            lm.printNumbered();
-        }
-    }
-}
+
 
 void query(std::vector<Command> commandArr, ListManager& lm)
 {
@@ -120,7 +84,9 @@ void query(std::vector<Command> commandArr, ListManager& lm)
         else if (command.getID() == "--new")
         {
             //  fix to take argument
-            lm.newList();;
+            if (command.getArgCount() == 0) lm.newListFromUser();
+            else lm.createNewList(command.getArg(0));
+
         }
         else if (command.getID() == "--switch")
         {
@@ -134,7 +100,11 @@ void query(std::vector<Command> commandArr, ListManager& lm)
         else if (command.getID() == "--lists")
         {
             lm.printNumbered();
-        }  
+        }
+        else if (command.getID() == "--test")
+        {
+            std::cout << "test line\n";
+        }
     }
 }
 
@@ -148,6 +118,7 @@ int main (int argc, char* argv[])
     CM.addCommand("--switch", false, 1, 0);
     CM.addCommand("--delete", false, 1, 0);
     CM.addCommand("--lists", false, 0, 0);
+    CM.addCommand("--test", false, 0, 0);
     CM.parse(argc, argv);
 
 

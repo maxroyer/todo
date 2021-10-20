@@ -44,6 +44,11 @@ public:
     {
         return m_argv[index];
     }
+    
+    int getArgCount ()
+    {
+        return argc;
+    }
 };
 
 class CommandManager

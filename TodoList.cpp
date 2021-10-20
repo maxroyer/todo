@@ -84,7 +84,7 @@ void TodoList::printNumbered()
     std::cout << "**********\n";
 }
 
-void TodoList::add()
+void TodoList::addFromUser()
 {
     //  Gets user input for new list entry and adds to TodoList.todoArr
     std::cout << "Add to list: ";

@@ -19,7 +19,7 @@ ListManager::ListManager (std::string dir, std::vector<std::string> fileArr, std
     //m_activeList.print();
 }
 
-void ListManager::newList()
+void ListManager::newListFromUser()
 {
     //  Gets user input to name and create a new list
     std::cout << "New List Name: ";
@@ -27,6 +27,14 @@ void ListManager::newList()
     std::getline(std::cin >> std::ws, title);
     std::string path {m_dir + '/' + title + ".dat"};
 
+    m_fileArr.push_back(path);
+    m_titleArr.push_back(title);
+    setActiveList(m_fileArr.size() - 1);
+}
+
+void ListManager::createNewList(std::string title)
+{
+    std::string path {m_dir + '/' + title + ".dat"};
     m_fileArr.push_back(path);
     m_titleArr.push_back(title);
     setActiveList(m_fileArr.size() - 1);
