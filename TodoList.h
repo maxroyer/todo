@@ -21,6 +21,7 @@ public:
     void print() const;
     void printNumbered();
     void add();
+    void addItem(std::string item);
     void removeItem();
     void saveToFile();
     friend class ListManager;

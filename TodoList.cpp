@@ -95,6 +95,11 @@ void TodoList::add()
     todoArr.push_back(newItem);
 }
 
+void TodoList::addItem (std::string item)
+{
+    todoArr.push_back(item);
+}
+
 void TodoList::removeItem()
 {
     //  Gets user input and removes selected TodoList.todoArr entry

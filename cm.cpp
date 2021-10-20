@@ -40,6 +40,10 @@ public:
     {
         m_argv.push_back(arg);
     }
+    std::string getArg (int index)
+    {
+        return m_argv[index];
+    }
 };
 
 class CommandManager
@@ -76,10 +80,12 @@ public:
                 comLocs.push_back(ii);
         }
 
+        comLocs.push_back(static_cast<int>(m_argv.size())); //Add length of m_argv for loop adding parameterer o commands
+
         //  Match locations in comLocs with commands in m_commandArr
-        for (int j{0}; j < comLocs.size(); ++j)
+        for (int j{0}; j <= comLocs.size() - 1; ++j)
         {
-            int index = comLocs[j];
+            int index {comLocs[j]};
             for (auto com : m_commandArr)
             {
                 if (m_argv[index] == com.getID())
@@ -88,15 +94,9 @@ public:
                     //  Create command w/ args in m_execArr? Check # of parameters first
                     Command tempCom {com};
                     std::vector<std::string> givenArgs(0);
-                    int count {1};
-                    while(m_argv.size() > (index + count))
+                    for(int jj{index + 1}; jj < comLocs[j+1]; ++jj)
                     {
-                        if (m_argv[index+count].substr(0,2) != "--")
-                        {
-                            // Can optimize by adding directly to tempCom with .addArg
-                            givenArgs.push_back(m_argv[index + count++]);
-                        }
-                        else ++count;
+                        givenArgs.push_back(m_argv[jj]);
                     }
                     
                     tempCom.addArgv(givenArgs);
@@ -106,14 +106,15 @@ public:
                         m_execArr.push_back(tempCom);
                     }
                     else std::cout << "Command check failed\n";
-
+                    break;
                 }
             }
         }
     }
 
-
-
-
+    std::vector<Command> getExecutables ()
+    {
+        return m_execArr;
+    }
 };
 

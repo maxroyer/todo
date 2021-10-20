@@ -16,7 +16,7 @@ ListManager::ListManager (std::string dir, std::vector<std::string> fileArr, std
     //  ListManager Constructor, requires dir string, a vector of strings containing file paths,
     //  a corresponding vector of titles, and the user selected index for the active list
     purgeArr();
-    m_activeList.print();
+    //m_activeList.print();
 }
 
 void ListManager::newList()
