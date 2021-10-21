@@ -39,7 +39,7 @@ void query(ListManager& lm)
         else if (command == "Remove" || command == "remove" || command == "R" || command == "r")
         {
             lm.getActiveList().printNumbered();
-            lm.getActiveList().removeItem(); 
+            lm.getActiveList().removeItemFromUser(); 
         }
         else if (command == "N" || command == "n")
         {
@@ -82,8 +82,19 @@ void query(std::vector<Command> commandArr, ListManager& lm)
         else if (command.getID() == "--done")
         {
             //  need option to enter a number to delete a list item
-            lm.getActiveList().printNumbered();
-            lm.getActiveList().removeItem();
+            if (command.getArgCount() == 0)
+            {
+                lm.getActiveList().printNumbered();
+                lm.getActiveList().removeItemFromUser();
+            }
+            else if (command.getArgCount() == 1)
+            {
+                bool argIsNum{ command.getArg(0).find_first_not_of("0123456789") == std::string::npos  };
+
+                if (argIsNum) lm.getActiveList().removeItem(command.getArgAsInt(0) - 1);
+                else std::cout << "Invalid Parameters\n";
+            }
+            else std::cout << "Invalid Parameters\n";
         }
 
         else if (command.getID() == "--new")
@@ -141,29 +152,25 @@ void query(std::vector<Command> commandArr, ListManager& lm)
 
 int main (int argc, char* argv[])
 {
-    CommandManager CM{};
-    CM.addCommand("--add", true, 1, 1);
-    CM.addCommand("--view", false, 0, 0);
-    CM.addCommand("--new", true, 1, 1);
-    CM.addCommand("--done", false, 0, 0);
-    CM.addCommand("--switch", false, 1, 0);
-    CM.addCommand("--delete", false, 1, 0);
-    CM.addCommand("--lists", false, 0, 0);
-    CM.addCommand("--test", false, 0, 0);
-    CM.parse(argc, argv);
-
-
     g_running = true;
     std::string configPath = "todo.config";
     SettingsManager SM {configPath};
     ListManager lm {startup(SM)};
 
-    
-
     if (argc > 1)
     {
+        CommandManager CM{};
+        CM.addCommand("--add", true, 1, 1);
+        CM.addCommand("--view", false, 0, 0);
+        CM.addCommand("--new", true, 1, 1);
+        CM.addCommand("--done", false, 1, 0);
+        CM.addCommand("--switch", false, 1, 0);
+        CM.addCommand("--delete", false, 1, 0);
+        CM.addCommand("--lists", false, 0, 0);
+        CM.addCommand("--test", false, 0, 0);
+
+        CM.parse(argc, argv);
         query(CM.getExecutables(), lm);
-        SM.saveConfig(lm);
     }
     else if (argc == 1)
     {

@@ -60,28 +60,39 @@ void TodoList::purgeArr()
         }
     }
 }
+/*
+void TodoList::print() const
+{
+    //  Prints out formated version of TodoList
+    std::cout << "\n\t***************\n\t***************\n\n\tTo-Do: "<< name << "\n\t------------\n";
+    for (auto i : todoArr)
+    {
+        if (i != "") std::cout << "\t- " << i << '\n';
+    }
+    std::cout << "\n\t***************\n\t***************\n\n";
+}*/
 
 void TodoList::print() const
 {
     //  Prints out formated version of TodoList
-    std::cout << "\n***************\n***************\n\nTo-Do: "<< name << "\n-------\n";
+    std::cout << "\n\t***************\n\n\tTo-Do: "<< name << "\n\t--------------\n";
     for (auto i : todoArr)
     {
-        if (i != "") std::cout << "- " << i << '\n';
+        if (i != "") std::cout << "\t- " << i << '\n';
     }
-    std::cout << "\n***************\n***************\n\n";
+    std::cout << "\n\t***************\n\n";
 }
 
 void TodoList::printNumbered() 
 {
     //  Prints out numbered version of TodoList
     purgeArr();
-    std::cout << "\n**********\n";
+    std::cout << "\n\t***************\n";
     for (int i{0}; i < todoArr.size(); ++i)
     {
-        std::cout << '[' << i+1 << "] " << todoArr[i] << '\n';
+        std::cout << "\t[" << i+1 << "] " << todoArr[i] << '\n';
     }
-    std::cout << "**********\n";
+    std::cout << "\t***************\n\n";
 }
 
 void TodoList::addFromUser()
@@ -100,7 +111,7 @@ void TodoList::addItem (std::string item)
     todoArr.push_back(item);
 }
 
-void TodoList::removeItem()
+void TodoList::removeItemFromUser()
 {
     //  Gets user input and removes selected TodoList.todoArr entry
     int num {};
@@ -134,7 +145,20 @@ void TodoList::removeItem()
 
     todoArr[num-1] = "";
     purgeArr();
-}   
+}
+
+void TodoList::removeItem (int index)
+{
+    if (index >= 0 && index < todoArr.size())
+    {
+        todoArr[index] = "";
+        purgeArr();
+    }
+    else
+    {
+        std::cout << "Invalid Parameters\n";
+    }
+}
 
 void TodoList::saveToFile()
 {

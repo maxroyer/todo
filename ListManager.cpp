@@ -156,12 +156,12 @@ void ListManager::printNumbered()
 {
     // Prints numbered list of ListManager.m_titleArr
     int printedNum {1};
-    std::cout << "\n**********\n";
+    std::cout << "\n\t**********\n";
     for (int i{0}; i < m_titleArr.size(); ++i)
     {
-        if (m_titleArr[i] != "") std::cout << '[' << printedNum++ << ']' << ' ' << m_titleArr[i] << '\n';
+        if (m_titleArr[i] != "") std::cout << "\t[" << printedNum++ << ']' << ' ' << m_titleArr[i] << '\n';
     }
-    std::cout << "**********\n\n";
+    std::cout << "\t**********\n\n";
 
 }
 

@@ -22,7 +22,8 @@ public:
     void printNumbered();
     void addFromUser();
     void addItem(std::string item);
-    void removeItem();
+    void removeItemFromUser ();
+    void removeItem(int index);
     void saveToFile();
     friend class ListManager;
     friend class SettingsManager;
