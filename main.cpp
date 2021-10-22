@@ -126,7 +126,6 @@ void query(std::vector<Command> commandArr, ListManager& lm)
 
         else if (command.getID() == "--delete")
         {
-            bool argIsNum{};
             if (command.getArgCount() == 1)
             {
                 bool argIsDigit{ command.getArg(0).find_first_not_of("0123456789") == std::string::npos };

@@ -75,10 +75,15 @@ void ListManager::removeListFromUser()
     std::filesystem::remove(m_fileArr[remove]);
 
     m_fileArr[remove] = "";
+    std::string title {m_titleArr[remove]};
     m_titleArr[remove] = "";
     purgeArr();
 
-    if (m_fileArr.size() != 0 && remove == m_activeIndex) selectList(true);
+    if (m_fileArr.size() != 0 && remove == m_activeIndex)
+    {
+            std::cout << "Todo List: " << title << " has been deleted.";
+            selectListFromUser(true);
+    }
     else if (m_fileArr.size() == 0)
     {
         m_fileArr.push_back(createFile());
@@ -107,10 +112,15 @@ void ListManager::removeList(int listNumber)
         std::filesystem::remove(m_fileArr[remove]);
 
         m_fileArr[remove] = "";
+        std::string title {m_titleArr[remove]};
         m_titleArr[remove] = "";
         purgeArr();
 
-        if (m_fileArr.size() != 0 && remove == m_activeIndex) selectList(true);
+        if (m_fileArr.size() != 0 && remove == m_activeIndex)
+        {
+            std::cout << "Todo List: " << title << " has been deleted.";
+            selectListFromUser(true);
+        }
         else if (m_fileArr.size() == 0)
         {
             m_fileArr.push_back(createFile());
@@ -140,7 +150,11 @@ void ListManager::removeList (std::string title)
         m_titleArr[remove] = "";
         purgeArr();
         
-        if (m_fileArr.size() != 0 && remove == m_activeIndex) selectList(true);
+        if (m_fileArr.size() != 0 && remove == m_activeIndex)
+        {
+            std::cout << "Todo List: " << title << " has been deleted.";
+            selectListFromUser(true);
+        }
         else if (m_fileArr.size() == 0)
         {
             m_fileArr.push_back(createFile());
