@@ -20,7 +20,7 @@ SettingsManager::SettingsManager (std::string configPath) : m_configPath {config
     {
         createConfigFile();
         std::cout << "Config not found, creating now...\nUsing default path for lists folder.\n";
-        m_listDir = "./lists";
+        m_listDir = "/home/max/.todo/lists";
         m_activeTodoPath = "";
     }
 }
