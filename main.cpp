@@ -9,7 +9,7 @@
 #include "main.h"
 #include "startup.h"
 
-#include "cm.cpp"
+#include "cm.h"
 
 
 void query(ListManager& lm)
