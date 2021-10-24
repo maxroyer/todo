@@ -2,6 +2,11 @@
 #define LISTMANAGER_H
 
 #include "TodoList.h"
+
+#include <iostream>
+#include <fstream>
+#include <filesystem>
+#include <limits>
 #include <string>
 #include <vector>
 

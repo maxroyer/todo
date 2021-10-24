@@ -1,8 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <limits>
 #include "TodoList.h"
 
 
@@ -60,17 +55,6 @@ void TodoList::purgeArr()
         }
     }
 }
-/*
-void TodoList::print() const
-{
-    //  Prints out formated version of TodoList
-    std::cout << "\n\t***************\n\t***************\n\n\tTo-Do: "<< name << "\n\t------------\n";
-    for (auto i : todoArr)
-    {
-        if (i != "") std::cout << "\t- " << i << '\n';
-    }
-    std::cout << "\n\t***************\n\t***************\n\n";
-}*/
 
 void TodoList::print() const
 {

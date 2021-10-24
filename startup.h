@@ -3,6 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <filesystem>
+#include <fstream>
 
 class ListManager;
 

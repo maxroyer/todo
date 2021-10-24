@@ -1,15 +1,7 @@
-#include <string>
-#include <vector>
-#include <iostream>
-#include <filesystem>
-#include <fstream>
-
 #include "startup.h"
 #include "ListManager.h"
 #include "TodoList.h"
 #include "main.h"
-
-
 
 SettingsManager::SettingsManager (std::string configPath) : m_configPath {configPath}
 {
