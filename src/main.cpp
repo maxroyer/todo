@@ -152,7 +152,7 @@ void query(std::vector<Command> commandArr, ListManager& lm)
 int main (int argc, char* argv[])
 {
     g_running = true;
-    std::string configPath = "todo.config";
+    std::string configPath = "../todo.config";
     SettingsManager SM {configPath};
     ListManager lm {startup(SM)};
 

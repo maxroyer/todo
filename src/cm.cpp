@@ -34,7 +34,7 @@ int Command::getArgAsInt (int index)
 }
 
 
-CommandManager::CommandManager () = default;
+//CommandManager::CommandManager= default;
 
 void CommandManager::addCommand (std::string id, bool argsReq, int maxArgs, int minArgs)
 {
